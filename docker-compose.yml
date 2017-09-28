@@ -1,0 +1,27 @@
+version:  "3"
+services:
+
+  db:
+    image: mariadb:10
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    env_file: .env
+    ports:
+      - "3306:3306"
+
+  www:
+    build: www
+    env_file: .env
+    volumes:
+      - /var/log/apache2
+    ports:
+      - "80:80"
+      - "443:443"
+    links:
+      - db:db
+
+  managementnode:
+    image: centos:7
+
+volumes:
+  mariadb_data:
