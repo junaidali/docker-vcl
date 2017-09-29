@@ -6,8 +6,6 @@ services:
     volumes:
       - mariadb_data:/var/lib/mysql
     env_file: .env
-    ports:
-      - "3306:3306"
 
   www:
     build: www
