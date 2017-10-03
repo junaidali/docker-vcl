@@ -1,4 +1,5 @@
 FROM centos:7
+LABEL maintainer="Junaid Ali <alisyed8@iit.edu>"
 RUN yum update -y \
 	&& yum install httpd mod_ssl php php-mysql php-xml php-xmlrpc php-ldap -y \
 	&& yum clean all \

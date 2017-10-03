@@ -19,7 +19,9 @@ services:
       - db:db
 
   managementnode:
-    image: centos:7
+    build: mgmt
+    env_file: .env
+
 
 volumes:
   mariadb_data:
