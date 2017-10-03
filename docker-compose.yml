@@ -6,6 +6,8 @@ services:
     volumes:
       - mariadb_data:/var/lib/mysql
     env_file: .env
+    domainname: vcl.local
+    hostname: db
 
   www:
     build: www
@@ -17,11 +19,18 @@ services:
       - "443:443"
     links:
       - db:db
+    domainname: vcl.local
+    hostname: www
 
   managementnode:
     build: mgmt
     env_file: .env
-
+    domainname: vcl.local
+    hostname: mgmt
+    links:
+      - db:db
+    volumes:
+      - /var/log/vcl/
 
 volumes:
   mariadb_data:
