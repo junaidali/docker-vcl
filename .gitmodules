@@ -1,0 +1,3 @@
+[submodule "www/web"]
+	path = www/web
+	url = git@bitbucket.org:systemengineers/vcl-web.git
