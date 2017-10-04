@@ -1,9 +1,40 @@
 FROM centos:7
 LABEL maintainer="Junaid Ali <alisyed8@iit.edu>"
-RUN yum update -y \
-    && yum install -y openssh-clients perl expat-devel gcc krb5-devel krb5-libs libxml2-devel make nmap openssl-devel perl-Archive-Tar perl-CPAN perl-Crypt-CBC perl-Crypt-OpenSSL-RSA perl-Crypt-Rijndael perl-DBD-MySQL perl-DBI     perl-Digest-SHA1 perl-IO-String perl-JSON perl-MailTools perl-Net-Jabber perl-Net-Netmask perl-Net-SSH-Expect perl-RPC-XML perl-Text-CSV_XS perl-Time-HiRes perl-XML-Simple perl-YAML xmlsec1-openssl \
+RUN yum update -y && yum install -y \
+    expat-devel \
+    gcc \
+    krb5-devel \
+    krb5-libs \
+    libxml2-devel \
+    make \
+    nmap \
+    openssh-clients \
+    openssl-devel \
+    perl \
+    perl-Archive-Tar \
+    perl-CPAN \
+    perl-Crypt-CBC \
+    perl-Crypt-OpenSSL-RSA \
+    perl-Crypt-Rijndael \
+    perl-DBD-MySQL \
+    perl-DBI \
+    perl-Digest-SHA1 \
+    perl-IO-String \
+    perl-JSON \
+    perl-MailTools \
+    perl-Net-Jabber \
+    perl-Net-Netmask \
+    perl-Net-SSH-Expect \
+    perl-RPC-XML \
+    perl-Text-CSV_XS \
+    perl-Time-HiRes \
+    perl-XML-Simple \
+    perl-YAML \
+    python-setuptools \
+    xmlsec1-openssl \
 	&& yum clean all \
-	&& rm -rf /var/cache/yum
+	&& rm -rf /var/cache/yum \
+    && easy_install supervisor
 
 WORKDIR /usr/local/bin
 RUN ["curl", "-L", "https://cpanmin.us", "-o", "cpanm"]
@@ -26,13 +57,19 @@ RUN ["cpanm", "Time::HiRes", "--notest", "--skip-installed"]
 RUN ["cpanm", "URI", "--notest", "--skip-installed"]
 RUN ["cpanm", "YAML", "--notest", "--skip-installed"]
 
+RUN ["mkdir", "/etc/vcl/"]
 COPY managementnode /usr/local/vcl
-COPY vcld.conf /etc/vcl/
+RUN ["cp", "/usr/local/vcl/etc/vcl/vcld.conf", "/etc/vcl/"]
 RUN ["echo", "UserKnownHostsFile /dev/null", ">>", "/etc/ssh/ssh_config"]
 RUN ["echo", "StrictHostKeyChecking no", ">>", "/etc/ssh/ssh_config"]
 RUN ["perl", "/usr/local/vcl/lib/VCL/utils.pm"]
 
-WORKDIR /usr/local/vcl
 VOLUME [ "/var/log/vcl" ]
-
-CMD ["/usr/local/vcl/bin/vcld", "-v -conf=/etc/vcl/vcld.conf"]
+COPY docker-entrypoint.sh /entrypoint.sh
+WORKDIR /
+RUN ["chmod", "+x", "entrypoint.sh"]
+COPY etc/supervisord.conf /etc/supervisord.conf
+COPY etc/supervisor.d/vcld.conf /etc/supervisor.d/vcld.conf
+WORKDIR /usr/local/vcl
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
