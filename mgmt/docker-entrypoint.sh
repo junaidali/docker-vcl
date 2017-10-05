@@ -13,7 +13,7 @@ echo "[Entrypoint] Configuration File Updated"
 cat /etc/vcl/vcld.conf
 
 # Update database
-
+perl -f /configure-vcl-db.pl
 
 # Start VCL Daemon
 echo "[Entrypoint] Starting VCL Daemon using $@"

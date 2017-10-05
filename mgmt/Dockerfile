@@ -66,6 +66,7 @@ RUN ["perl", "/usr/local/vcl/lib/VCL/utils.pm"]
 
 VOLUME [ "/var/log/vcl" ]
 COPY docker-entrypoint.sh /entrypoint.sh
+COPY configure-vcl-db.pl /configure-vcl-db.pl
 WORKDIR /
 RUN ["chmod", "+x", "entrypoint.sh"]
 COPY etc/supervisord.conf /etc/supervisord.conf
