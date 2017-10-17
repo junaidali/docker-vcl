@@ -19,6 +19,8 @@ services:
       - "443:443"
     links:
       - db:db
+    depends_on:
+      - db
     domainname: vcl.local
     hostname: www
 
@@ -29,6 +31,8 @@ services:
     hostname: mgmt
     links:
       - db:db
+    depends_on:
+      - db
     volumes:
       - /var/log/vcl/
 
