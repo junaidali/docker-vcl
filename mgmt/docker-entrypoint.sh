@@ -13,6 +13,7 @@ echo "[Entrypoint] Configuration File Updated"
 cat /etc/vcl/vcld.conf
 
 # Update database
+echo "[Entrypoint] Updating management node information in database"
 perl -f /configure-vcl-db.pl
 
 # Start VCL Daemon
