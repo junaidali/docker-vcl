@@ -23,6 +23,7 @@ services:
       - db
     domainname: vcl.local
     hostname: www
+    image: junaid/vcl-www:k8s
 
   managementnode:
     build: mgmt
@@ -35,6 +36,7 @@ services:
       - db
     volumes:
       - /var/log/vcl/
+    image: junaid/vcl-mgmt:k8s
 
 volumes:
   mariadb_data:
