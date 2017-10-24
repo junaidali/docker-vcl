@@ -1,6 +1,6 @@
 [submodule "www/web"]
 	path = www/web
-	url = git@bitbucket.org:systemengineers/vcl-web.git
+	url = git@github.com:junaidali/vcl-web.git
 [submodule "mgmt/managementnode"]
 	path = mgmt/managementnode
-	url = git@bitbucket.org:systemengineers/vcl-managementnode.git
+	url = git@github.com:junaidali/vcl-managementnode.git
