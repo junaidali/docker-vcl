@@ -1,7 +1,13 @@
 FROM centos:7
 LABEL maintainer="Junaid Ali <alisyed8@iit.edu>"
-RUN yum update -y \
-	&& yum install httpd mod_ssl php php-mysql php-xml php-xmlrpc php-ldap -y \
+RUN yum update -y && yum install -y \
+	httpd \
+	mod_ssl \
+	php \
+	php-ldap \
+	php-mysql \
+	php-xml \
+	php-xmlrpc \	
 	&& yum clean all \
 	&& rm -rf /var/cache/yum
 COPY web /var/www/html/vcl
@@ -14,5 +20,6 @@ RUN ["chown", "-R", "apache", "/var/www/html/vcl/.ht-inc/maintenance"]
 RUN ["chown", "-R", "apache", "/var/www/html/vcl/.ht-inc/cryptkey"]
 EXPOSE 80 
 EXPOSE 443
+COPY etc/php.ini /etc/php.ini
 WORKDIR /var/www/html/vcl
 CMD ["/usr/sbin/apachectl", "-D", "FOREGROUND"]

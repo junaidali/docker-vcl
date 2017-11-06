@@ -16,12 +16,12 @@
   limitations under the License.
 */
 
-$vclhost = 'db'; # name of mysql server
+$vclhost = getenv("MYSQL_HOST");; # name of mysql server
 $vcldb = getenv("MYSQL_DATABASE");         # name of mysql database
 $vclusername = getenv("MYSQL_USER");      # username to access database
 $vclpassword = getenv("MYSQL_PASSWORD");      # password to access database
 
-$cryptkey  = 'cPOY8gdbabFyKzGrokDtAsF82Pd4RB9LxsxR7AAZQu8='; # generate with "openssl rand 32 | base64"
+$cryptkey  = getenv("VCL_CRYPT_KEY");; # generate with "openssl rand 32 | base64"
 
-$pemkey = 'LabEjceomBol<friam'; # random passphrase - won't ever have to type it so make it long
+$pemkey = getenv("VCL_PEM_KEY");; # random passphrase - won't ever have to type it so make it long
 ?>
