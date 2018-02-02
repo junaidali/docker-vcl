@@ -127,5 +127,5 @@ COPY wait-for-it.sh /wait-for-it.sh
 RUN ["chmod", "+x", "wait-for-it.sh"]
 
 WORKDIR /usr/local/vcl
-ENTRYPOINT ["/wait-for-it.sh", "db:3306", "--", "/entrypoint.sh"]
-CMD ["/wait-for-it.sh", "db:3306", "--", "/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
+ENTRYPOINT ["/wait-for-it.sh", "vcl-mysql:3306", "--", "/entrypoint.sh"]
+CMD ["/wait-for-it.sh", "vcl-mysql:3306", "--", "/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]

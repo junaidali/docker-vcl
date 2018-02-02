@@ -9,7 +9,7 @@ my $ip_address = inet_ntoa(
 print "Configuring VCL Database";
 
 print "\n[VCL DB CONFIG] Connnecting to VCL Database";
-my $dsn = "DBI:mysql:database=$ENV{'MYSQL_DATABASE'};host=db";
+my $dsn = "DBI:mysql:database=$ENV{'MYSQL_DATABASE'};host=$ENV{'MYSQL_HOST'}";
 my $dbh = DBI->connect($dsn, $ENV{'MYSQL_USER'}, $ENV{'MYSQL_PASSWORD'}) or die('ERROR - Could not connect to VCL database');
 
 print "\n[VCL DB CONFIG] Connnected to VCL Database";
