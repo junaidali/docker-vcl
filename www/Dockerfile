@@ -7,19 +7,30 @@ RUN yum update -y && yum install -y \
 	php-ldap \
 	php-mysql \
 	php-xml \
-	php-xmlrpc \	
+	php-xmlrpc \
+	python-setuptools \
+	which \	
 	&& yum clean all \
-	&& rm -rf /var/cache/yum
+	&& rm -rf /var/cache/yum \
+	&& easy_install supervisor
+
 COPY web /var/www/html/vcl
-COPY secrets.php /var/www/html/vcl/.ht-inc/
 WORKDIR /var/www/html/vcl/.ht-inc
 RUN ["chmod", "+x", "genkeys.sh"]
-RUN ["./genkeys.sh"]
 COPY conf.php /var/www/html/vcl/.ht-inc/
 RUN ["chown", "-R", "apache", "/var/www/html/vcl/.ht-inc/maintenance"]
 RUN ["chown", "-R", "apache", "/var/www/html/vcl/.ht-inc/cryptkey"]
 EXPOSE 80 
 EXPOSE 443
 COPY etc/php.ini /etc/php.ini
+
+COPY docker-entrypoint.sh /entrypoint.sh
+RUN ["chmod", "+x", "/entrypoint.sh"]
+COPY etc/supervisord.conf /etc/supervisord.conf
+COPY etc/supervisor.d/httpd.conf /etc/supervisor.d/httpd.conf
+COPY wait-for-it.sh /wait-for-it.sh
+RUN ["chmod", "+x", "/wait-for-it.sh"]
+
 WORKDIR /var/www/html/vcl
-CMD ["/usr/sbin/apachectl", "-D", "FOREGROUND"]
+ENTRYPOINT ["/wait-for-it.sh", "vcl-mysql:3306", "--", "/entrypoint.sh"]
+CMD ["/wait-for-it.sh", "vcl-mysql:3306", "--", "/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
