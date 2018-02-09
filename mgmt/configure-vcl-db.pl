@@ -80,6 +80,9 @@ EOF
 
 }
 
+print "\n[VCL DB CONFIG] Adding to allManagementNodes Group";
+
+
 $sth->finish();
 print "\n[VCL DB CONFIG] Disconnecting from the VCL Database";
 $dbh->disconnect();
