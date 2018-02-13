@@ -30,5 +30,4 @@ To run apache VCL in docker containers perform the following steps:
     * Enter a new password
     * Click Submit Changes
 
-8. The management node already has the vmware vsphere sdk installed. If you need other provisioning tools you will have to update the mgmt/Dockerfile accordingly
-
+8. The management node already has the vmware vsphere sdk installed. If you need other provisioning tools you will have to update the [Management Node Docker File](mgmt/Dockerfile) accordingly
