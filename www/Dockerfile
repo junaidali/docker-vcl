@@ -24,4 +24,6 @@ RUN ["chown", "-R", "apache", "/var/www/html/vcl/.ht-inc/cryptkey"]
 EXPOSE 80
 EXPOSE 443
 WORKDIR /var/www/html/vcl
+# enable mounting of vcl source code for development
+VOLUME [ "/var/www/html/vcl" ]
 CMD ["/usr/sbin/apachectl", "-D", "FOREGROUND"]
