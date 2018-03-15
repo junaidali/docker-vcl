@@ -72,18 +72,6 @@ cd ~/Projects/vcl
 git clone https://github.com/junaidali/vcl-web.git web
 ```
 
-## Update docker-compose file with mount points
-Within the [Docker Compose](.\docker-compose.yml) file update the www service and set the /var/www/html/vcl volume to mount to your personal project directory
-
-```
-www:
-  volumes:
-    - /Users/junaid/Projects/iitvcl/web:/var/www/html/vcl
-
-Update the /Users/junaid/Projects/iitvcl/web path to your local project path
-e.g. /home/jdoe/Projects/vcl/web
-```
-
 ## Update the xdebug configuration file
 Xdebug allows you to debug your PHP web application. We need to setup xdebug to connect to the debugger running on your local computer. You will need to provide the IP of the computer where you run the debugger. Create a file within www/etc/php.d/xdebug.ini with following contents and replacing the YOUR_IP_ADDRESS_HERE with your computer's IP address:
 
@@ -98,15 +86,21 @@ xdebug.remote_host="YOUR_IP_ADDRESS_HERE"
 xdebug.profiler_output_dir=/tmp/php-xdebug
 ```
 
-## Launch containers
+## Build containers
+You will need to build your containers locally using the new xdebug configuration file.
+
+```
+docker-compose build
+```
+
+## Launch Database containers
 You are now ready to launch the development environment. You can change the container environment variables using the [environment file](.\.env) file
 
 ```
 cd ~/Projects/vcl/docker-vcl
-docker-compose up -d www
+docker-compose up -d db
 ```
 
-## Initialize the VCL database
 For your current release of VCL, you will need the vcl.sql file that is provided in the mysql directory of the [download](https://vcl.apache.org/downloads/download.cgi)
 
 Copy the vcl.sql file to your container
@@ -126,6 +120,32 @@ sh# mysql -uvcl -ps3cr3t vcl < /tmp/vcl.sql
 where the vcl user's password is s3cr3t. it can be modified by changing the .env environment file
 ```
 
+## Launch web container
+You will need to copy the following files (that are excluded from git repository) into the .ht-inc directory of the vcl website. These files are available in [www](./www/) directory
+
+```
+secrets.php
+conf.php
+```
+
+Launch the web container with the correct mount point for the website files.
+
+```
+docker-compose run -d -v /Users/junaid/Projects/iitvcl/web:/var/www/html/vcl
+
+Update the /Users/junaid/Projects/iitvcl/web path to your local project path
+e.g. /home/jdoe/Projects/vcl/web
+```
+
+Regenerate the keys
+
+```
+cd ~/Projects/vcl/docker-vcl
+docker exec -it dockervcl_www_run_1 sh
+sh# cd .ht-inc
+sh# ./genkeys.sh
+```
+
 ## Setup IDE's for development
 1. Create a new Project from ~/Projects/vcl/web directory
 2. Open your project in Eclipse PDT
@@ -135,16 +155,27 @@ where the vcl user's password is s3cr3t. it can be modified by changing the .env
 6. Click "Configure" to the right of Xdebug in the same window.
 7. Select Xdebug and click "Configure".
 8. On the "Accept remote session(JIT)" select "any" and click "OK". This is extremely important and this is where most people get stuck.
+9. Add external dependencies for [PHP Unit](https://phpunit.de/getting-started/phpunit-5.html)
+10. Setup new PHP server
+
+Item | Value |
+--- | --- |
+Server Name | Localhost Docker
+Base URL | https://localhost/
+Document Root | BLANK
+Debugger | XDebug
+Port | 9000
+Path Mapping | Manual - /vcl - /vcl 
+
 
 ## Start Debugging
 * Install the [Firefox Xdebug helper](https://addons.mozilla.org/en-US/firefox/addon/xdebug-helper-for-firefox/) if you are using Firefox. You will need this to start the debug session.
-* Open Firefox and go to https://localhost/vcl/testsetup.php. Make sure all tests are passing. If you have any issues with encryption, you might need to regenerate the keys
-
+* Open Firefox and go to https://localhost/vcl/testsetup.php. Make sure all tests are passing.
+* If you receive error about maintenance and cryptkey directories are not writable, perform the following fix
 ```
 cd ~/Projects/vcl/docker-vcl
-docker-compose exec www sh
+docker exec -it dockervcl_www_run_1 sh
 sh# cd .ht-inc
-sh# ./genkeys.sh
+sh# chown -R apache:apache maintenance/ cryptkey/
 ```
-
 * Start Xdebug session by clicking the helper icon in the address bar. It should turn green to signify that Xdebug has been enabled. Next reload the page and it should launch Eclipse IDE in debug mode.

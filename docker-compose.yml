@@ -14,7 +14,7 @@ services:
     env_file: .env
     volumes:
       - /var/log/apache2
-      - /Users/junaid/Projects/iitvcl/web:/var/www/html/vcl
+      - /var/www/html/vcl
     ports:
       - "80:80"
       - "443:443"
