@@ -6,6 +6,7 @@ RUN yum install epel-release -y && yum update -y && yum install -y \
 	php \
 	php-ldap \
 	php-mysql \
+	php-pear-CAS \
 	php-pecl-xdebug \
 	php-xml \
 	php-xmlrpc \
