@@ -131,7 +131,7 @@ conf.php
 Launch the web container with the correct mount point for the website files.
 
 ```
-docker-compose run -d -v /Users/junaid/Projects/iitvcl/web:/var/www/html/vcl
+docker-compose run -d -v /Users/junaid/Projects/iitvcl/web:/var/www/html/vcl --service-ports www
 
 Update the /Users/junaid/Projects/iitvcl/web path to your local project path
 e.g. /home/jdoe/Projects/vcl/web
@@ -165,7 +165,7 @@ Base URL | https://localhost/
 Document Root | BLANK
 Debugger | XDebug
 Port | 9000
-Path Mapping | Manual - /vcl - /vcl 
+Path Mapping | Manual - /vcl - /vcl
 
 
 ## Start Debugging
