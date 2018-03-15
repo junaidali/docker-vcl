@@ -57,6 +57,14 @@ cd ~/Projects/vcl
 git clone https://github.com/junaidali/docker-vcl.git
 ```
 
+Switch to debug branch
+
+```
+cd ~/Projects/vcl/docker-vcl
+git checkout -b debug
+git pull origin debug
+```
+
 Clone the VCL Website directory from your source control system
 
 ```
