@@ -114,7 +114,7 @@ Import the VCL database
 
 ```
 cd ~/Projects/vcl/docker-vcl
-docker-compose exec www sh
+docker-compose exec db sh
 sh# mysql -uvcl -ps3cr3t vcl < /tmp/vcl.sql
 
 where the vcl user's password is s3cr3t. it can be modified by changing the .env environment file
