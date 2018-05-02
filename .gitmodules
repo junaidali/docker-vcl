@@ -1,6 +1,8 @@
-[submodule "www/web"]
-	path = www/web
-	url = git@github.com:junaidali/vcl-web.git
 [submodule "mgmt/managementnode"]
 	path = mgmt/managementnode
 	url = git@github.com:junaidali/vcl-managementnode.git
+	branch = k8s
+[submodule "www/web"]
+        path = www/web
+        url = git@github.com:junaidali/vcl-web.git
+	branch = k8s

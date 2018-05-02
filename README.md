@@ -1,25 +1,23 @@
-# Running Apache VCL in docker container
+# Running Apache VCL in docker container within Kubernetes
 
-You will need the following setup before you can run apache VCL
+You will need the following setup before you can run apache VCL as a containerized application
 1. [Docker](https://www.docker.com/get-docker)
 2. [Docker Compose](https://docs.docker.com/compose/install/)
+3. [Kubernetes](https://kubernetes.io/)
 
+## Building Images
+The images built need to be published to a remote repository that will be used to pull the image down for execution. The default image repositories uses [Dockerhub - Junaid](https://hub.docker.com/u/junaid/).
 
-To run apache VCL in docker containers perform the following steps:
-
-1. Clone this repository onto a local folder
-2. Change to the folder where you downloaded this repository
-3. Update .env file with MYSQL_PASSWORD you will like to use
-4. Launch containers using docker-compose
-
+Update the docker-compose.yml file with the path of the image repository that will be used for pulling images at runtime within the kubernetes cluster. Update line # 26 and 39 with the settings that match your envioronment. To build the image
 ```
-    docker-compose up -d
+docker-compose build
 ```
 
-5. Check if the containers launched correctly
-
+## Pushing Images
+To push the image to your image repository
 ```
-    docker-compose ps
+docker push <image name> <tag>
+e.g. docker push junaid/vcl-www k8s && docker push junaid/vcl-mgmt k8s
 ```
 
 6. Access the vcl website at https://localhost/vcl and login with the default password adminVc1passw0rd

@@ -37,6 +37,7 @@ services:
       - db
     volumes:
       - /var/log/vcl/
+    image: junaid/vcl-mgmt:k8s
 
 volumes:
   mariadb_data:
