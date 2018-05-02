@@ -24,7 +24,7 @@ services:
       - db
     domainname: vcl.local
     hostname: www
-    image: junaid/vcl-www:debug
+    image: junaid/vcl-www:k8s
 
   managementnode:
     build: mgmt
