@@ -14,7 +14,7 @@ services:
     env_file: .env
     volumes:
       - /var/log/apache2
-      - /var/www/html/vcl
+      - /var/www/html
     ports:
       - "80:80"
       - "443:443"

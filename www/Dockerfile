@@ -10,16 +10,20 @@ RUN yum install epel-release -y && yum update -y && yum install -y \
 	php-pecl-xdebug \
 	php-xml \
 	php-xmlrpc \
+	python-setuptools \
 	tcpdump \
+	which \
 	&& yum clean all \
-	&& rm -rf /var/cache/yum
+	&& rm -rf /var/cache/yum \
+	&& easy_install supervisor
+
 COPY etc/php.d/xdebug.ini /etc/php.d/xdebug.ini
-COPY web /var/www/html/vcl
-WORKDIR /var/www/html/vcl/.ht-inc
+COPY web /var/www/html
+WORKDIR /var/www/html/.ht-inc
 RUN ["chmod", "+x", "genkeys.sh"]
-COPY conf.php /var/www/html/vcl/.ht-inc/
-RUN ["chown", "-R", "apache", "/var/www/html/vcl/.ht-inc/maintenance"]
-RUN ["chown", "-R", "apache", "/var/www/html/vcl/.ht-inc/cryptkey"]
+COPY conf.php /var/www/html/.ht-inc/
+RUN ["chown", "-R", "apache", "/var/www/html/.ht-inc/maintenance"]
+RUN ["chown", "-R", "apache", "/var/www/html/.ht-inc/cryptkey"]
 EXPOSE 80
 EXPOSE 443
 COPY etc/php.ini /etc/php.ini
@@ -31,7 +35,8 @@ COPY etc/supervisor.d/httpd.conf /etc/supervisor.d/httpd.conf
 COPY wait-for-it.sh /wait-for-it.sh
 RUN ["chmod", "+x", "/wait-for-it.sh"]
 
-WORKDIR /var/www/html/vcl
+WORKDIR /var/www/html
 # enable mounting of vcl source code for development
-VOLUME [ "/var/www/html/vcl" ]
-CMD ["/usr/sbin/apachectl", "-D", "FOREGROUND"]
+VOLUME [ "/var/www/html" ]
+ENTRYPOINT ["/wait-for-it.sh", "vcl-mysql:3306", "--", "/entrypoint.sh"]
+CMD ["/wait-for-it.sh", "vcl-mysql:3306", "--", "/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]

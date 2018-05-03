@@ -61,9 +61,9 @@ if (strpos($host, ':')) {
         $host = substr( $host, 0, strpos($host, ':'));
 }
 
-define("BASEURL", "https://{$_SERVER['HTTP_HOST']}/vcl");   // no trailing slash - all of the URL except /index.php
+define("BASEURL", "https://{$_SERVER['HTTP_HOST']}");   // no trailing slash - all of the URL except /index.php
 define("SCRIPT", "/index.php");                 // this should only be "/index.php" unless you rename index.php to something else
-define("HOMEURL", "https://{$_SERVER['HTTP_HOST']}/vcl/"); // url to go to when someone clicks HOME or Logout
+define("HOMEURL", "https://{$_SERVER['HTTP_HOST']}/"); // url to go to when someone clicks HOME or Logout
 define("COOKIEDOMAIN", "{$host}");       // domain in which cookies are set
 
 define("DEFAULTGROUP", "adminUsers"); // if a user is in no groups, use reservation

@@ -129,7 +129,7 @@ conf.php
 Launch the web container with the correct mount point for the website files.
 
 ```
-docker-compose run -d -v /Users/junaid/Projects/iitvcl/web:/var/www/html/vcl --service-ports www
+docker-compose run -d -v /Users/junaid/Projects/iitvcl/web:/var/www/html --service-ports www
 
 Update the /Users/junaid/Projects/iitvcl/web path to your local project path
 e.g. /home/jdoe/Projects/vcl/web
