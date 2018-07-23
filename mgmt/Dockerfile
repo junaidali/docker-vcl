@@ -38,6 +38,7 @@ RUN yum update -y && yum install -y \
     perl-XML-LibXML \
     perl-XML-Simple \
     perl-YAML \
+    postfix \
     python-setuptools \
     wget \
     which \
@@ -128,6 +129,11 @@ COPY etc/supervisord.conf /etc/supervisord.conf
 COPY etc/supervisor.d/vcld.conf /etc/supervisor.d/vcld.conf
 COPY wait-for-it.sh /wait-for-it.sh
 RUN ["chmod", "+x", "wait-for-it.sh"]
+
+# setup postfix
+COPY postfix-wrapper.sh /postfix-wrapper.sh
+RUN ["chmod", "+x", "postfix-wrapper.sh"]
+COPY etc/supervisor.d/postfix.conf /etc/supervisor.d/postfix.conf
 
 # enable mounting of vcl logs directory
 VOLUME [ "/var/log/vcl" ]
