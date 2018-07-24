@@ -68,7 +68,7 @@ EOF
 
 	print "\n[VCL DB CONFIG] Updating resourcegroupmembers";
 	my $update_resourcegroupmembers = <<EOF;
-INSERT INTO 
+INSERT IGNORE INTO 
 vcl.resourcegroupmembers (resourceid, resourcegroupid) 
 SELECT vcl.resource.id, vcl.resourcegroup.id 
 FROM vcl.resource, vcl.resourcegroup 
