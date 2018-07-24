@@ -29,6 +29,7 @@ while (my $ref = $sth->fetchrow_hashref()) {
 	$mgmt_node_exists = 1;
 }
 
+# if management node already exists, update IP address
 if ($mgmt_node_exists) {
 	print "\n[VCL DB CONFIG] Management Node already exists. Updating IP Address";
     my $update_managementnode = <<EOF;
@@ -41,13 +42,14 @@ EOF
 	$sth->execute();	
 	print "\n[VCL DB CONFIG] managementnode ip address updated";
 }
+# create new management node entry to database
 else {
 	print "\n[VCL DB CONFIG] Management Node does not already exists. Updating managementnode table";
 	my $update_managementnode = <<EOF;
 INSERT INTO managementnode 
-(IPaddress, hostname, stateid, availablenetworks)
+(IPaddress, hostname, stateid, `keys`, availablenetworks)
 VALUES	
-('$ip_address', '$ENV{'HOSTNAME'}', '2', 'NULL')
+('$ip_address', '$ENV{'HOSTNAME'}', '2', '/etc/vcl-ssh-keys/vcl.key', 'NULL')
 EOF
 	$sth = $dbh->prepare($update_managementnode);
 	$sth->execute();	
@@ -80,10 +82,41 @@ EOF
 
 }
 
+# add to allManagementNodes group - insert into resourcegroupmembers (resourceid, resourcegroupid) VALUES (10, 3);
 print "\n[VCL DB CONFIG] Adding to allManagementNodes Group";
+print "\n[VCL DB CONFIG] getting resource id";
 
+my $mgmt_node_resourceid = 0;
+$select_statement = <<EOF;
+SELECT r.id as rid 
+FROM managementnode as m 
+JOIN resource as r 
+WHERE m.id = r.subid 
+AND r.resourcetypeid = 16 
+AND m.hostname =  '$ENV{'HOSTNAME'}'
+EOF
+
+$sth = $dbh->prepare($select_statement);
+$sth->execute();
+while (my $ref = $sth->fetchrow_hashref()) {
+	print "\n[VCL DB CONFIG] Row: id = $ref->{'rid'}";
+	$mgmt_node_resourceid = $ref->{'rid'};
+}
+
+if ($mgmt_node_resourceid) {
+	# add to resource group allManagementNodes
+	$update_resourcegroupmembers = <<EOF;
+INSERT INTO resourcegroupmembers (resourceid, resourcegroupid)
+VALUES ($mgmt_node_resourceid, 3)
+EOF
+
+	$sth = $dbh->prepare($update_resourcegroupmembers);
+	$sth->execute();
+	print "\n[VCL DB CONFIG] resourcegroupmembers table updated";
+}
 
 $sth->finish();
+
 print "\n[VCL DB CONFIG] Disconnecting from the VCL Database";
 $dbh->disconnect();
 print "\n[VCL DB CONFIG] Disconnected from the VCL Database\n[VCL DB CONFIG] ";
