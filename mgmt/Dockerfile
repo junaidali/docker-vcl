@@ -11,6 +11,7 @@ RUN yum update -y && yum install -y \
     httpd-devel \
     krb5-devel \
     krb5-libs \
+    libssl-dev \
     libuuid-devel \
     libxml2-devel \
     make \
@@ -23,12 +24,15 @@ RUN yum update -y && yum install -y \
     perl-core \
     perl-CPAN \
     perl-Crypt-CBC \
+    perl-Crypt-SSLeay \
     perl-Crypt-OpenSSL-RSA \
+    perl-Data-Dumper \
     perl-DBD-MySQL \
     perl-DBI \
     perl-Digest-SHA1 \
     perl-IO-String \
     perl-JSON \
+    perl-libwww-perl \    
     perl-MailTools \
     perl-Net-Jabber \
     perl-Net-Netmask \
@@ -108,7 +112,10 @@ RUN ["cpanm" , "XML::NamespaceSupport", "--notest", "--skip-installed"]
 RUN ["cpanm" , "XML::SAX", "--notest", "--skip-installed"]
 
 ADD vsphere-perl-sdk/VMware-vSphere-Perl-SDK-6.5.0-4566394.x86_64.tar.gz /tmp/
-RUN ["/tmp/vmware-vsphere-cli-distrib/vmware-install.pl", "-d", "EULA_AGREED=yes"]
+WORKDIR /tmp/vmware-vsphere-cli-distrib/
+RUN ["perl", "Makefile.PL"]
+RUN ["make"]
+RUN ["make", "install"]
 
 # setup ssh client configuration
 RUN ["echo", "UserKnownHostsFile /dev/null", ">>", "/etc/ssh/ssh_config"]
