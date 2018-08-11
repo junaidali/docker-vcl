@@ -15,8 +15,8 @@ echo "updating database user to $MYSQL_USER"
 sed -i "s/^\(LockerWrtUser=\).*/\1${MYSQL_USER//\//\\/}/" /etc/vcl/vcld.conf
 echo "updating database user password to $MYSQL_PASSWORD"
 sed -i "s/^\(wrtPass=\).*/\1${MYSQL_PASSWORD//\//\\/}/" /etc/vcl/vcld.conf
-echo "updating log file to /var/log/vcl/vcld.log"
-sed -i "s/^\(log=\).*/\1\/var\/log\/vcl\/vcld.log/" /etc/vcl/vcld.conf
+echo "updating log file to /var/log/vcl/vcld-${HOSTNAME}.log"
+sed -i "s/^\(log=\).*/\1\/var\/log\/vcl\/vcld-${HOSTNAME}.log/" /etc/vcl/vcld.conf
 echo "updating xmlrpc user password to $XMLRPC_PASSWORD"
 sed -i "s/^\(xmlrpc_pass=\).*/\1${XMLRPC_PASSWORD//\//\\/}/" /etc/vcl/vcld.conf
 echo "updating xmlrpc user to $XMLRPC_USER"
