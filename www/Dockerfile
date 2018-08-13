@@ -10,6 +10,7 @@ RUN yum install epel-release -y && yum update -y && yum install -y \
 	php-pecl-xdebug \
 	php-xml \
 	php-xmlrpc \
+	postfix \
 	python-setuptools \
 	tcpdump \
 	which \
@@ -34,6 +35,11 @@ COPY etc/supervisord.conf /etc/supervisord.conf
 COPY etc/supervisor.d/httpd.conf /etc/supervisor.d/httpd.conf
 COPY wait-for-it.sh /wait-for-it.sh
 RUN ["chmod", "+x", "/wait-for-it.sh"]
+
+# setup postfix
+COPY postfix-wrapper.sh /postfix-wrapper.sh
+RUN ["chmod", "+x", "postfix-wrapper.sh"]
+COPY etc/supervisor.d/postfix.conf /etc/supervisor.d/postfix.conf
 
 WORKDIR /var/www/html
 # enable mounting of vcl source code for development
