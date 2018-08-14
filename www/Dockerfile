@@ -38,7 +38,7 @@ RUN ["chmod", "+x", "/wait-for-it.sh"]
 
 # setup postfix
 COPY postfix-wrapper.sh /postfix-wrapper.sh
-RUN ["chmod", "+x", "postfix-wrapper.sh"]
+RUN ["chmod", "+x", "/postfix-wrapper.sh"]
 COPY etc/supervisor.d/postfix.conf /etc/supervisor.d/postfix.conf
 
 WORKDIR /var/www/html
