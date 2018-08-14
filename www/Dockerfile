@@ -22,7 +22,7 @@ COPY etc/php.d/xdebug.ini /etc/php.d/xdebug.ini
 COPY web /var/www/html
 WORKDIR /var/www/html/.ht-inc
 RUN ["chmod", "+x", "genkeys.sh"]
-COPY /var/www/html/.ht-inc/conf-default.php /var/www/html/.ht-inc/conf.php
+RUN ["cp", "/var/www/html/.ht-inc/conf-default.php", "/var/www/html/.ht-inc/conf.php"]
 RUN ["chown", "-R", "apache", "/var/www/html/.ht-inc/maintenance"]
 RUN ["chown", "-R", "apache", "/var/www/html/.ht-inc/cryptkey"]
 EXPOSE 80
