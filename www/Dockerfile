@@ -21,7 +21,7 @@ COPY etc/php.d/xdebug.ini /etc/php.d/xdebug.ini
 COPY web /var/www/html
 WORKDIR /var/www/html/.ht-inc
 RUN ["chmod", "+x", "genkeys.sh"]
-COPY conf.php /var/www/html/.ht-inc/
+COPY /var/www/html/.ht-inc/conf-default.php /var/www/html/.ht-inc/conf.php
 RUN ["chown", "-R", "apache", "/var/www/html/.ht-inc/maintenance"]
 RUN ["chown", "-R", "apache", "/var/www/html/.ht-inc/cryptkey"]
 EXPOSE 80
@@ -36,7 +36,7 @@ COPY wait-for-it.sh /wait-for-it.sh
 RUN ["chmod", "+x", "/wait-for-it.sh"]
 
 WORKDIR /var/www/html
-# enable mounting of vcl source code for development
-VOLUME [ "/var/www/html" ]
+# enable mounting of vcl source code for development and logs for production
+VOLUME [ "/var/www/html", "/var/log/httpd" ]
 ENTRYPOINT ["/wait-for-it.sh", "vcl-mysql:3306", "--", "/entrypoint.sh"]
 CMD ["/wait-for-it.sh", "vcl-mysql:3306", "--", "/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
