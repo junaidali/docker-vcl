@@ -14,6 +14,17 @@ sed -i "s/^\(\$pemkey\s=\s\).*/\1\'${VCL_PEM_KEY//\//\\/}';/" /var/www/html/.ht-
 echo "[Entrypoint] secrets.php updated"
 cat /var/www/html/.ht-inc/secrets.php
 
+# update conf.php
+echo "[Entrypoint] updating conf.php"
+if [ ! -f /etc/vcl-web-conf/conf.php ]; then
+    echo "[Entrypoint] /etc/vcl-web-conf/conf.php does not exists. cannot update /var/www/html/.ht-inc/conf.php"
+else
+    echo "[Entrypoint] /etc/vcl-web-conf/conf.php found updating /var/www/html/.ht-inc/conf.php"
+    ln -svf /etc/vcl-web-conf/conf.php /var/www/html/.ht-inc/conf.php
+fi
+echo "[Entrypoint] conf.php updated"
+cat /var/www/html/.ht-inc/conf.php
+
 # Run key generation
 echo "[Entrypoint] Generating encryption keys"
 cd /var/www/html/.ht-inc
