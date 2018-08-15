@@ -25,6 +25,11 @@ fi
 echo "[Entrypoint] conf.php updated"
 cat /var/www/html/.ht-inc/conf.php
 
+# Configure Postfix MTA
+echo "[Entrypoint] Updating postfix configuration"
+postconf -e inet_interfaces=all
+postconf -e relayhost=${SMTP_RELAY_HOST}:${SMTP_RELAY_PORT}
+
 # Run key generation
 echo "[Entrypoint] Generating encryption keys"
 cd /var/www/html/.ht-inc
