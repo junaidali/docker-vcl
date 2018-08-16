@@ -23,6 +23,8 @@ echo "updating xmlrpc user to $XMLRPC_USER"
 sed -i "s/^\(xmlrpc_username=\).*/\1${XMLRPC_USER//\//\\/}/" /etc/vcl/vcld.conf
 echo "updating xmlrpc url to $XMLRPC_URL"
 sed -i "s/^\(xmlrpc_url=\).*/\1${XMLRPC_URL//\//\\/}/" /etc/vcl/vcld.conf
+echo "updating windows root password to $WINDOWS_ROOT_PASSWORD"
+sed -i "s/^\(WINDOWS_ROOT_PASSWORD=\).*/\1${WINDOWS_ROOT_PASSWORD//\//\\/}/" /etc/vcl/vcld.conf
 
 echo "[Entrypoint] VCL configuration file post-update"
 cat /etc/vcl/vcld.conf
