@@ -15,15 +15,15 @@ echo "[Entrypoint] secrets.php updated"
 cat /var/www/html/.ht-inc/secrets.php
 
 # update conf.php
-echo "[Entrypoint] updating conf.php"
-if [ ! -f /etc/vcl-web-conf/conf.php ]; then
-    echo "[Entrypoint] /etc/vcl-web-conf/conf.php does not exists. cannot update /var/www/html/.ht-inc/conf.php"
-else
-    echo "[Entrypoint] /etc/vcl-web-conf/conf.php found updating /var/www/html/.ht-inc/conf.php"
-    ln -svf /etc/vcl-web-conf/conf.php /var/www/html/.ht-inc/conf.php
-fi
-echo "[Entrypoint] conf.php updated"
-cat /var/www/html/.ht-inc/conf.php
+# echo "[Entrypoint] updating conf.php"
+# if [ ! -f /etc/vcl-web-conf/conf.php ]; then
+#    echo "[Entrypoint] /etc/vcl-web-conf/conf.php does not exists. cannot update /var/www/html/.ht-inc/conf.php"
+#else
+#    echo "[Entrypoint] /etc/vcl-web-conf/conf.php found updating /var/www/html/.ht-inc/conf.php"
+#    ln -svf /etc/vcl-web-conf/conf.php /var/www/html/.ht-inc/conf.php
+#fi
+#echo "[Entrypoint] conf.php updated"
+#cat /var/www/html/.ht-inc/conf.php
 
 # Configure Postfix MTA
 echo "[Entrypoint] Updating postfix configuration"
