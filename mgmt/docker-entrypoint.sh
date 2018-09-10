@@ -37,6 +37,7 @@ perl -f /configure-vcl-db.pl
 echo "[Entrypoint] Updating postfix configuration"
 postconf -e inet_interfaces=all
 postconf -e relayhost=${SMTP_RELAY_HOST}:${SMTP_RELAY_PORT}
+postconf -e myhostname=${SMTP_MYHOSTNAME}
 
 # Start VCL Daemon
 echo "[Entrypoint] Starting VCL Daemon using $@"
