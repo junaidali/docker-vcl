@@ -144,7 +144,7 @@ sh# cd .ht-inc
 sh# ./genkeys.sh
 ```
 
-## Setup IDE's for development
+## Setup Eclipse PHP IDE for development
 1. Create a new Project from ~/Projects/vcl/web directory
 2. Open your project in Eclipse PDT
 3. In the main menu select Project->Properties

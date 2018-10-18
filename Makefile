@@ -48,16 +48,12 @@ post-push:
 
 docker-compose-build: .release
 	docker-compose build
-	DOCKER_MAJOR=$(shell docker -v | sed -e 's/.*version //' -e 's/,.*//' | cut -d\. -f1)
-	DOCKER_MINOR=$(shell docker -v | sed -e 's/.*version //' -e 's/,.*//' | cut -d\. -f2)
 	docker tag $(IMAGE)-mgmt:latest $(IMAGE)-mgmt:$(VERSION)
 	docker tag $(IMAGE)-www:latest $(IMAGE)-www:$(VERSION)
 
 
 docker-compose-build-no-cache: .release
 	docker-compose build --no-cache --pull
-	DOCKER_MAJOR=$(shell docker -v | sed -e 's/.*version //' -e 's/,.*//' | cut -d\. -f1)
-	DOCKER_MINOR=$(shell docker -v | sed -e 's/.*version //' -e 's/,.*//' | cut -d\. -f2)
 	docker tag $(IMAGE)-mgmt:latest $(IMAGE)-mgmt:$(VERSION);\
 	docker tag $(IMAGE)-www:latest $(IMAGE)-www:$(VERSION);
 
