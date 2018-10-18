@@ -186,14 +186,14 @@ We will be using make to manage the docker image build and release process.
 In this section we describe the process of releasing different types of images. Major versions are released to match VCL community releases, e.g. 2.5, 2.5.2, etc. Minor versions are released to include bug fixes.
 
 ### Major Release
-Perform the required changes to the files, but do not commit it. Instead we will use make to commit and create a build.
+Perform the required changes to the files, but do not commit it. Instead we will use make to commit and create a major build.
 
 ```
 make major-release
 ```
 
 ### Minor Releases
-Perform the required changes to the files, but do not commit it. Instead we will use make to commit and create a build.
+Perform the required changes to the files, but do not commit it. Instead we will use make to commit and create a minor build.
 
 ```
 make minor-release
