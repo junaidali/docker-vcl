@@ -177,3 +177,24 @@ sh# cd .ht-inc
 sh# chown -R apache:apache maintenance/ cryptkey/
 ```
 * Start Xdebug session by clicking the helper icon in the address bar. It should turn green to signify that Xdebug has been enabled. Next reload the page and it should launch Eclipse IDE in debug mode.
+
+# Using make for building and pushing images
+
+We will be using make to manage the docker image build and release process.
+
+## Build Images
+In this section we describe the process of releasing different types of images. Major versions are released to match VCL community releases, e.g. 2.5, 2.5.2, etc. Minor versions are released to include bug fixes.
+
+### Major Release
+Perform the required changes to the files, but do not commit it. Instead we will use make to commit and create a build.
+
+```
+make major-release
+```
+
+### Minor Releases
+Perform the required changes to the files, but do not commit it. Instead we will use make to commit and create a build.
+
+```
+make minor-release
+```
