@@ -50,13 +50,14 @@ docker-compose-build: .release
 	docker-compose build
 	docker tag $(IMAGE)-mgmt:latest $(IMAGE)-mgmt:$(VERSION)
 	docker tag $(IMAGE)-www:latest $(IMAGE)-www:$(VERSION)
+	docker tag $(IMAGE)-db:latest $(IMAGE)-db:$(VERSION)
 
 
 docker-compose-build-no-cache: .release
 	docker-compose build --no-cache --pull
 	docker tag $(IMAGE)-mgmt:latest $(IMAGE)-mgmt:$(VERSION);\
 	docker tag $(IMAGE)-www:latest $(IMAGE)-www:$(VERSION);
-
+	docker tag $(IMAGE)-db:latest $(IMAGE)-db:$(VERSION)
 
 .release:
 	@echo "release=0.0.0" > .release
@@ -75,6 +76,8 @@ do-push:
 	docker push $(IMAGE)-mgmt:latest
 	docker push $(IMAGE)-www:$(VERSION)
 	docker push $(IMAGE)-www:latest
+	docker push $(IMAGE)-db:$(VERSION)
+	docker push $(IMAGE)-db:latest
 
 snapshot: build push
 

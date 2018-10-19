@@ -2,12 +2,11 @@ version:  "3"
 services:
 
   db:
-    image: mariadb:10
-    volumes:
-      - mariadb_data:/var/lib/mysql
+    build: mysql
     env_file: .env
     domainname: vcl.local
     hostname: db
+    image: "${REGISTRY_HOST}/${NAME}-db"
 
   www:
     build: www
