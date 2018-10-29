@@ -38,6 +38,7 @@ CREATE TABLE IF NOT EXISTS `addomain` (
   `username` varchar(64) NOT NULL default '',
   `password` varchar(256) NOT NULL default '',
   `secretid` smallint(5) unsigned NOT NULL,
+  `usedatabasehostnames` tinyint(1) unsigned NOT NULL default '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `domainDNSName` (`domainDNSName`),
   KEY `secretid` (`secretid`)
@@ -498,6 +499,7 @@ CREATE TABLE IF NOT EXISTS `image` (
   `description` text,
   `usage` text,
   `basedoffrevisionid` mediumint(8) unsigned default NULL,
+  `uefi` tinyint(1) unsigned NOT NULL default '0',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `name` (`name`),
   UNIQUE KEY `prettyname` (`prettyname`),
